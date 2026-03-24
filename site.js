@@ -649,6 +649,7 @@ PAGES[''] = {
       section('📰 EtHeReUm NeWs!!! 📰',
         '<p style="color:#888;font-size:12px">The latest blog posts and updates from the community</p>' +
         '<div class="news-item">📢 <a href="https://blog.ethereum.org/" target="_blank">Ethereum Foundation Blog</a> <span class="new-badge">NEW!</span></div>' +
+        '<div class="news-item">📢 <a href="https://ethereal.news/" target="_blank">Ethereal.news</a> <span class="new-badge">NEW!</span></div>' +
         '<div class="news-item">📢 <a href="#/community">Community Updates</a> <span class="new-badge">HOT!</span></div>' +
         '<div class="news-item">📢 <a href="https://soliditylang.org/blog/" target="_blank">Solidity Lang Blog</a></div>' +
         '<div class="news-item">📢 <a href="https://vitalik.eth.limo/" target="_blank">Vitalik Buterin\'s website</a> <span class="new-badge">🔥</span></div>' +
