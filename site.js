@@ -398,8 +398,8 @@ function movePopup(avoidSide) {
 function closePopup() {
   // They can never truly close it... or can they?
   popupEvadeCount++;
-  if (popupEvadeCount >= 5) {
-    // OK fine, let them close it after 15 evades
+  if (popupEvadeCount >= 3) {
+    // OK fine, let them close it after a few evades
     document.getElementById('winnerPopup').style.display = 'none';
     popupDismissed = true;
   } else {
@@ -415,7 +415,7 @@ function evadePopup() {
   if (!popup || popupDismissed) return;
   popupEvadeCount++;
   lastPopupEvadeTime = Date.now();
-  if (popupEvadeCount >= 5) {
+  if (popupEvadeCount >= 3) {
     popup.style.display = 'none';
     popupDismissed = true;
     return;
