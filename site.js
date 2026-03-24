@@ -583,7 +583,10 @@ PAGES[''] = {
       '<div class="under-construction">🚧 ⚠️ THIS SITE IS UNDER CONSTRUCTION ⚠️ 🚧</div>' +
       FIRE +
 
-      adBanner('⚡ FREE ETHEREUM!!! ⚡', 'Send 0.1 ETH and receive 10 ETH back! <span style="font-size:10px">(jk this is a scam,', '#/security', 'learn about security)</span>', '') +
+      '<div class="price-ticker"><div class="label">~~ LIVE ETH PRICE ~~</div>' +
+      '<div class="price eth-price">$2,141.53</div>' +
+      '<div class="label"><span class="eth-price-direction" style="color:#44eedd">▲ TO THE MOON 🚀🌙</span></div>' +
+      '<div style="font-size:10px;color:#444;margin-top:5px">* Updates every 60 seconds via CoinGecko API. Yes, even Comic Sans websites can have live data.</div></div>' +
 
       section('🤔 WuT iS eThErEuM?!? 🤔',
         '<table width="100%" cellpadding="0" cellspacing="0"><tr>' +
@@ -617,11 +620,6 @@ PAGES[''] = {
         '<p><font color="#ffff00"><b>Ether (ETH)</b></font> is the native cryptocurrency that powers the Ethereum network, used to pay transaction fees and secure the blockchain through staking. Beyond its technical role, ETH is open, programmable <font color="#00ff00"><b>DIGITAL MONEY</b></font>.</p>' +
         '<p style="text-align:center"><a href="#/what-is-ether">&gt;&gt;&gt; Learn more about ether &gt;&gt;&gt;</a></p>'
       ) +
-
-      '<div class="price-ticker"><div class="label">~~ LIVE ETH PRICE ~~</div>' +
-      '<div class="price eth-price">$2,141.53</div>' +
-      '<div class="label"><span class="eth-price-direction" style="color:#44eedd">▲ TO THE MOON 🚀🌙</span></div>' +
-      '<div style="font-size:10px;color:#444;margin-top:5px">* Updates every 60 seconds via CoinGecko API. Yes, even Comic Sans websites can have live data.</div></div>' +
       FIRE +
 
       section('💪 ThE sTrOnGeSt EcOsYsTeM!!! 💪',
