@@ -297,29 +297,34 @@ function setVolume(v) {
   if (bgAudio) bgAudio.volume = v / 100;
 }
 
-// Auto-play on first user interaction (browsers block autoplay without interaction)
-function tryAutoplay() {
+// Auto-play: try immediately, then hook every interaction type Safari/Chrome might allow
+function startAudio() {
   if (audioStarted) return;
-  initAudio();
+  if (!bgAudio) initAudio();
   if (!bgAudio) return;
   bgAudio.play().then(function() {
     audioStarted = true;
     var btn = document.getElementById('btn-play');
     if (btn) btn.textContent = '▶ Playing';
-  }).catch(function() {
-    // Blocked by browser - wait for user interaction
-    document.addEventListener('click', function handler() {
-      if (audioStarted) return;
-      bgAudio.play().then(function() {
-        audioStarted = true;
-        var btn = document.getElementById('btn-play');
-        if (btn) btn.textContent = '▶ Playing';
-      }).catch(function(){});
-      document.removeEventListener('click', handler);
-    }, {once: true});
+    // Clean up listeners once playing
+    removeAutoplayListeners();
+  }).catch(function(){});
+}
+
+function removeAutoplayListeners() {
+  ['click','touchstart','scroll','keydown','mousemove'].forEach(function(evt) {
+    document.removeEventListener(evt, startAudio);
   });
 }
-setTimeout(tryAutoplay, 1000);
+
+// Try autoplay immediately
+setTimeout(startAudio, 800);
+// Also try on a second delay (some browsers allow after a short wait)
+setTimeout(startAudio, 2500);
+// Hook all possible user interactions as fallback (Safari needs this)
+['click','touchstart','scroll','keydown','mousemove'].forEach(function(evt) {
+  document.addEventListener(evt, startAudio, {once: false, passive: true});
+});
 
 // ========== SPARKLE CURSOR TRAIL ==========
 document.addEventListener('mousemove', function(e) {
@@ -402,6 +407,22 @@ function closePopup() {
   }
 }
 
+// Timestamp of last popup evade - used to block Skype button bleed-through
+var lastPopupEvadeTime = 0;
+
+function evadePopup() {
+  var popup = document.getElementById('winnerPopup');
+  if (!popup || popupDismissed) return;
+  popupEvadeCount++;
+  lastPopupEvadeTime = Date.now();
+  if (popupEvadeCount >= 5) {
+    popup.style.display = 'none';
+    popupDismissed = true;
+    return;
+  }
+  movePopup(popup._currentSide);
+}
+
 // Show popup after delay
 setTimeout(function() {
   var popup = document.getElementById('winnerPopup');
@@ -409,18 +430,22 @@ setTimeout(function() {
   popup.style.display = 'block';
   movePopup(null);
 
-  // Evade on mouseenter - the popup runs away the instant you touch it
-  popup.addEventListener('mouseenter', function() {
-    if (popupDismissed) return;
-    popupEvadeCount++;
-    if (popupEvadeCount >= 5) {
-      popup.style.display = 'none';
-      popupDismissed = true;
-      return;
-    }
-    movePopup(popup._currentSide);
-  });
+  // Evade on mouseenter (desktop) and touchstart (mobile)
+  popup.addEventListener('mouseenter', evadePopup);
+  popup.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    evadePopup();
+  }, {passive: false});
 }, 2500);
+
+// Block Skype button if popup just evaded (prevents tap bleed-through on mobile)
+document.getElementById('skype-bubble').addEventListener('click', function(e) {
+  if (Date.now() - lastPopupEvadeTime < 600) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+}, true);
 
 // ========== VISITOR COUNTER ==========
 var visitorCount = 4523;
